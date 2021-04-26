@@ -41,9 +41,12 @@ def pop_table_length(cur, conn):
 ############################################################
 
 def get_state(soup):
-    table = soup.find('table',{'class':'wikitable.sortable.jquery-tablesorter'})
+    table = soup.find('table',{'class':'wikitable sortable'})
+    print(table)
     body = table.find('tbody')
-    all_rows = body.find_all('tr')
+    print("this is body")
+    print(body)
+    all_rows = table.find_all('tr')
 
     key_state_dict = {}
 
@@ -53,12 +56,10 @@ def get_state(soup):
         value = row_cells[2].text.strip()
         key_state_dict[key] = value
     
-        print("my state table", key_state_dict)
-
     return key_state_dict
  
 def get_pop_2020(soup): 
-    table = soup.find('table',{'class':'wikitable sortable jquery-tablesorter'})
+    table = soup.find('table',{'class':'wikitable sortable'})
     body = table.find('tbody')
     all_rows = body.find_all('tr')
 
@@ -70,11 +71,10 @@ def get_pop_2020(soup):
         value = row.cells[3].text.strip()
         key_pop_2020_dict[key] = value
 
-    print("my table for 2020", key_pop_2020_dict)
     return key_pop_2020_dict
 
 def get_pop_2010(soup): 
-    table = soup.find('table',{'class':'wikitable sortable jquery-tablesorter'})
+    table = soup.find('table',{'class':'wikitable sortable'})
     body = table.find('tbody')
     all_rows = body.find_all('tr')
 
@@ -86,7 +86,6 @@ def get_pop_2010(soup):
         value = row.cells[4].text.strip()
         key_pop_2010_dict[key] = value
 
-    print("my table for 2010", key_pop_2010_dict)
     return key_pop_2010_dict
 
 
