@@ -21,7 +21,7 @@ def setUpDatabase(db_name):
     cur = conn.cursor()
     return cur, conn
 
-def pop_table(cur, conn, state, year, population): 
+def pop_table(cur, conn, state, population): 
     """ this function takes in cursor and connection variables to database, state, year and number of US Population for that state. It creates a table in the database if it doesn't exist and inserts the state, date and number of population. Returns nothing """
    
     cur.execute('CREATE TABLE IF NOT EXISTS Population Data (2020/2010) ("id" INTEGER PRIMARY KEY, "state" TEXT, "population" NUMBER)')
@@ -62,24 +62,9 @@ def get_pop_2010(soup):
 
     return key_pop_2010_dict
 
-def fill_pop_table(cur, con, soup): 
-
-    population_2020 = get_pop_2020(soup)
-    population_2010 = get_pop_2010(soup)
-
-    cur.execute(f'SELECT ')
-
-
-
-
-
-
-
-
 
 def main(): 
     soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/List_of_states_and_territories_of_the_United_States_by_population').text, 'html.parser')
-    get_state(soup)
     get_pop_2020(soup)
     get_pop_2010(soup)
 
