@@ -44,11 +44,16 @@ def get_state(soup):
     table = soup.find('table',{'class':'wikitable sortable'})
     print(table)
     body = table.find('tbody')
-    print("this is body")
+    ''' there is something wrong with the body '''
     print(body)
     all_rows = table.find_all('tr')
 
     key_state_dict = {}
+
+    ''' for some reason when i try to access the first td (which is like count number) and the 2nd td (which is
+    state name i get an error that says that the index is out of range. I tried printing out the "body" code in line 46 and it
+    seemed to go straight into tds (row cells)  and not counting the tr's (number of rows), can you try and figure out what went wrong?
+    i looked at some examples from homework and discussion and it seem to go fine '''
 
     for row in all_rows: 
         row_cells = row.find_all('td')
