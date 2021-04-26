@@ -1,0 +1,51 @@
+California has had a 1.0613160921755531 change in population
+Texas has had a 1.159071575297127 change in population
+Florida has had a 1.145568420498359 change in population
+New York has had a 1.0424782055538773 change in population
+Pennsylvania has had a 1.023642893980726 change in population
+Illinois has had a 0.9985874429256486 change in population
+Ohio has had a 1.0227923467976088 change in population
+Georgia has had a 1.1057278785687308 change in population
+North Carolina has had a 1.094793834774809 change in population
+Michigan has had a 1.0195971322306356 change in population
+New Jersey has had a 1.0565407180750814 change in population
+Virginia has had a 1.0787860403868306 change in population
+Washington has had a 1.1458450689563895 change in population
+Arizona has had a 1.1188177378126498 change in population
+Massachusetts has had a 1.073658418948294 change in population
+Tennessee has had a 1.0889892304019553 change in population
+Indiana has had a 1.0465353507093522 change in population
+Missouri has had a 1.031440857435731 change in population
+Maryland has had a 1.0660530986817127 change in population
+Wisconsin has had a 1.0363517687576513 change in population
+Colorado has had a 1.1480391696804022 change in population
+Minnesota has had a 1.075900205979534 change in population
+South Carolina has had a 1.1065993941233598 change in population
+Alabama has had a 1.0511624491394504 change in population
+Louisiana has had a 1.0274376336201838 change in population
+Kentucky has had a 1.0383625077113783 change in population
+Oregon has had a 1.1060230107797449 change in population
+Oklahoma has had a 1.0554472242133568 change in population
+Connecticut has had a 1.008910502429005 change in population
+Utah has had a 1.1837019268167814 change in population
+Puerto Rico has had a 0.8819270227057947 change in population
+Iowa has had a 1.0472742014637164 change in population
+Nevada has had a 1.1496224289043235 change in population
+Arkansas has had a 1.0327876161126617 change in population
+Mississippi has had a 0.997971891590225 change in population
+Kansas has had a 1.0297085504349979 change in population
+New Mexico has had a 1.028333136653006 change in population
+Nebraska has had a 1.0740075374752032 change in population
+Idaho has had a 1.1732119914620096 change in population
+West Virginia has had a 0.9680096103926942 change in population
+Hawaii has had a 1.0698154305554433 change in population
+New Hampshire has had a 1.046380851823437 change in population
+Maine has had a 1.0255939462239556 change in population
+Rhode Island has had a 1.042574011915631 change in population
+Montana has had a 1.0958243002178054 change in population
+Delaware has had a 1.1024730102657878 change in population
+South Dakota has had a 1.0890306811761528 change in population
+North Dakota has had a 1.1583473463070424 change in population
+Alaska has had a 1.0326091088673968 change in population
+District of Columbia has had a 1.1459508777294536 change in population
+Vermont has had a 1.0277047532445533 change in population
