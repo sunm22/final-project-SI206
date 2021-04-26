@@ -42,11 +42,9 @@ def pop_table_length(cur, conn):
 
 def get_state(soup):
     table = soup.find('table',{'class':'wikitable sortable'})
-    print(table)
     body = table.find('tbody')
     ''' there is something wrong with the body '''
-    print(body)
-    all_rows = table.find_all('tr')
+    all_rows = body.find_all('tr')
 
     key_state_dict = {}
 
@@ -55,7 +53,7 @@ def get_state(soup):
     seemed to go straight into tds (row cells)  and not counting the tr's (number of rows), can you try and figure out what went wrong?
     i looked at some examples from homework and discussion and it seem to go fine '''
 
-    for row in all_rows: 
+    for row in all_rows[2:53]: 
         row_cells = row.find_all('td')
         key = row_cells[0].text.strip()
         value = row_cells[2].text.strip()
@@ -70,10 +68,10 @@ def get_pop_2020(soup):
 
     key_pop_2020_dict = {}
 
-    for row in all_rows: 
+    for row in all_rows[2:53]: 
         row_cells = row.find_all('td')
         key = row_cells[0].text.strip()
-        value = row.cells[3].text.strip()
+        value = row_cells[3].text.strip()
         key_pop_2020_dict[key] = value
 
     return key_pop_2020_dict
@@ -85,10 +83,10 @@ def get_pop_2010(soup):
 
     key_pop_2010_dict = {}
 
-    for row in all_rows: 
+    for row in all_rows[2:53]: 
         row_cells = row.find_all('td')
         key = row_cells[0].text.strip()
-        value = row.cells[4].text.strip()
+        value = row_cells[4].text.strip()
         key_pop_2010_dict[key] = value
 
     return key_pop_2010_dict
@@ -102,5 +100,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    unittest.main(verbosity = 2)
       
