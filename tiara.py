@@ -134,7 +134,7 @@ def main():
     pop_2020 = get_pop_2020(soup)
     pop_2010 = get_pop_2010(soup)
 
-    cur, conn = setUpDatabase("database.db")
+    cur, conn = setUpDatabase("finalProject.db")
     # pop_table(cur, conn, pop_2020, "2020", 51)
 
     percent_changes(cur, conn)
