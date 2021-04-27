@@ -34,33 +34,6 @@ def pop_table(cur, conn, pop_dict, date, count):
        
     conn.commit()
 
-def population_chart(cur, conn):
-    
-    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-
-    label = []
-    population = []
-
-    # Grabbing Populations and States from the Database
-    cursor = cur.execute("SELECT state, population FROM Population")
-    for row in cursor:
-        if row[0].split(":")[1] == "2020":
-            label.append(row[0].split(":")[0])
-            num = row[1]
-            num = int(num.replace(',', ''))
-            population.append(num)
-
-    clearLabels = label[:8]
-    for x in label[8:]:
-        clearLabels.append("")
-
-    fig1, ax1 = plt.subplots()
-    ax1.pie(population, labels=clearLabels, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    plt.title("Total 2020 US Population by State")
-
-    plt.show()
-
 def percent_changes(cur, conn):
 
     labels2020 = []
@@ -92,8 +65,15 @@ def percent_changes(cur, conn):
         f.write(labels2010[x] + " has had a " + str(pop2020[x]/pop2010[x]) + " change in population\n")
 
     f.close()
-        
-        
+
+def pop_table_length(cur, conn):
+    '''This function calculates the number of rows in the CovidData table to help with extracting
+    25 lines at a time. Returns the number of rows in the table as an int.'''
+    cur.execute('CREATE TABLE IF NOT EXISTS Population ("id" INTEGER PRIMARY KEY, "state" TEXT, "population" INTEGER)')
+    cur.execute('SELECT MAX(id) FROM Population')
+    data = cur.fetchone()
+    num = data[0]
+    return num
 
 ############################################################
 
@@ -111,6 +91,8 @@ def get_pop_2020(soup):
         value = row_cells[3].text.strip()
         key_pop_2020_dict[key] = value
 
+    key_pop_2020_dict.pop('District of Columbia')
+
     return key_pop_2020_dict
 
 def get_pop_2010(soup): 
@@ -125,20 +107,41 @@ def get_pop_2010(soup):
         key = row_cells[2].text.strip()
         value = row_cells[4].text.strip()
         key_pop_2010_dict[key] = value
+    
+    key_pop_2010_dict.pop('District of Columbia')
 
     return key_pop_2010_dict
 
 
 def main(): 
     soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/List_of_states_and_territories_of_the_United_States_by_population').text, 'html.parser')
+    
     pop_2020 = get_pop_2020(soup)
+    pop_2020_firsthalf = dict(list(pop_2020.items())[:25])
+    pop_2020_secondhalf = dict(list(pop_2020.items())[25:])
+
     pop_2010 = get_pop_2010(soup)
+    pop_2010_firsthalf = dict(list(pop_2010.items())[:25])
+    pop_2010_secondhalf = dict(list(pop_2010.items())[25:])
 
     cur, conn = setUpDatabase("finalProject.db")
-    # pop_table(cur, conn, pop_2020, "2020", 51)
+
+    num = pop_table_length(cur, conn)
+
+    if num == None:
+        pop_table(cur, conn, pop_2010_firsthalf, "2010", 1)
+        return
+    elif type(num) == int:
+        if num <= 25:
+            pop_table(cur, conn, pop_2010_secondhalf, "2010", 26)
+            return
+        if num <= 50:
+            pop_table(cur, conn, pop_2020_firsthalf, "2020", 51)
+            return
+        if num <= 75:
+            pop_table(cur, conn, pop_2020_secondhalf, "2020", 76)
 
     percent_changes(cur, conn)
-    population_chart(cur, conn)
     
 
 if __name__ == "__main__":

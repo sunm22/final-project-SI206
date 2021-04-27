@@ -16,7 +16,7 @@ def setUpDatabase(db_name):
     cur = conn.cursor()
     return cur, conn
 
-def percent_change_viz(cur, conn):
+def cases_percent_change(cur, conn):
     '''This function takes in the cursor and connection variables. It uses matplotlib to create a bar graph
     of the 10 states with highest % increase in COVID cases from Dec 2020 to Mar 2021 by using the PercentChange table.
     Output is the creation of the graph.'''
@@ -77,10 +77,38 @@ def highest_positives_viz(cur, conn):
 
     plt.show()
 
+def pop_chart(cur, conn):
+    
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+
+    label = []
+    population = []
+
+    # Grabbing Populations and States from the Database
+    cursor = cur.execute("SELECT state, population FROM Population")
+    for row in cursor:
+        if row[0].split(":")[1] == "2020":
+            label.append(row[0].split(":")[0])
+            num = row[1]
+            num = int(num.replace(',', ''))
+            population.append(num)
+
+    clearLabels = label[:8]
+    for x in label[8:]:
+        clearLabels.append("")
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(population, labels=clearLabels, startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    plt.title("Total 2020 US Population by State")
+
+    plt.show()
+
 def main():
     cur, conn = setUpDatabase("finalProject.db")
-    percent_change_viz(cur, conn)
+    cases_percent_change(cur, conn)
     highest_positives_viz(cur, conn)
+    pop_chart(cur, conn)
 
 if __name__ == "__main__":
     main()
