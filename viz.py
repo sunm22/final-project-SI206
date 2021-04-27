@@ -104,7 +104,40 @@ def pop_chart(cur, conn):
 
     plt.show()
 
+def comparison_chart(cur, conn):
+    states_list = ['ca', 'tx', 'fl', 'ny', 'il', 'ga', 'oh', 'pa', 'nc', 'az']
+    cases_list = []
+    pop_list = []
+    
+    cur.execute('SELECT States.state, Dates.date, CovidData.number_of_cases FROM CovidData JOIN States JOIN Dates ON CovidData.state_id = States.state_id and CovidData.date_id = Dates.date_id')
+    for row in cur:
+        for state in states_list:
+            if row[1] == '20201201' and row[0] == state:
+                cases_list.append(row)
+    positives_list = sorted(positives_list, key = lambda x: x[2], reverse=True)
+
+    top_ten = positives_list[:10]
+
+    x = []
+    y = []
+
+    for item in top_ten:
+        x.append(item[0])
+        y.append(item[2])
+
+    x_pos = [i for i, _ in enumerate(x)]
+
+    plt.bar(x_pos, y, color='blue')
+    plt.xlabel('State')
+    plt.ylabel('Top 10 states with highest number of Covid Cases as proportion of ')
+    plt.title('Highest positive cases by state in Mar 2021')
+
+    plt.xticks(x_pos, x)
+
+    plt.show()
+
 def main():
+    '''Establishes connection to server and creates visualizations.'''
     cur, conn = setUpDatabase("finalProject.db")
     cases_percent_change(cur, conn)
     highest_positives_viz(cur, conn)
