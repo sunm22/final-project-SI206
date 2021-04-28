@@ -22,7 +22,7 @@ def setUpDatabase(db_name):
     return cur, conn
 
 def pop_table(cur, conn, pop_dict, date, count): 
-    '’’This function takes in the cursor and connection variables to database, state, year and number of US Population for that state. It creates a table in the database if it doesn’t exist and inserts the state, date and number of population. Returns nothing ‘’’
+    '''This function takes in the cursor and connection variables to database, state, year and number of US Population for that state. It creates a table in the database if it doesn’t exist and inserts the state, date and number of population. Returns nothing'''
     
     cur.execute('CREATE TABLE IF NOT EXISTS Population ("id" INTEGER PRIMARY KEY, "state" TEXT, "population" INTEGER)')
 
