@@ -78,6 +78,7 @@ def highest_positives_viz(cur, conn):
     plt.show()
 
 def pop_chart(cur, conn):
+    """This function takes in the cursor and connection variables. It uses matplotlib to create a pie chart of the 50 United States and their 2020 population numbers to create the division of the 2020 total US Population per state population. Output is the creation of the pie chart."""
     
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
 

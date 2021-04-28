@@ -22,8 +22,8 @@ def setUpDatabase(db_name):
     return cur, conn
 
 def pop_table(cur, conn, pop_dict, date, count): 
-    """ this function takes in cursor and connection variables to database, state, year and number of US Population for that state. It creates a table in the database if it doesn't exist and inserts the state, date and number of population. Returns nothing """
-
+    '’’This function takes in the cursor and connection variables to database, state, year and number of US Population for that state. It creates a table in the database if it doesn’t exist and inserts the state, date and number of population. Returns nothing ‘’’
+    
     cur.execute('CREATE TABLE IF NOT EXISTS Population ("id" INTEGER PRIMARY KEY, "state" TEXT, "population" INTEGER)')
 
     # Inserting 50 states at a time into Population Database
@@ -35,6 +35,7 @@ def pop_table(cur, conn, pop_dict, date, count):
     conn.commit()
 
 def percent_changes(cur, conn):
+    '''This function takes in cursor and connection variables. It grabs the population and states from the database, seeds out the 2020 and 2010 population, append the state name into a labels list and its population numbers to the population list. Calculate percentage changes and write the calculations onto a txt file. Returns nothing.'''
 
     labels2020 = []
     pop2020 = []
@@ -79,6 +80,8 @@ def pop_table_length(cur, conn):
 
  
 def get_pop_2020(soup): 
+    '''This function takes in a soup request called in the main() and finds the table retaining population numbers through class tag. Then it finds the rows of the table and iterates through the rows to scrape state names and population numbers. It appends the state and population number into a dictionary where state is key and population number is value. It removes District of Columbia to get 50 states. Returns dictionary containing state name and 2020 population numbers.'''
+
     table = soup.find('table',{'class':'wikitable sortable'})
     body = table.find('tbody')
     all_rows = body.find_all('tr')
@@ -96,6 +99,9 @@ def get_pop_2020(soup):
     return key_pop_2020_dict
 
 def get_pop_2010(soup): 
+    '''This function takes in a soup request called in the main() and finds the table retaining population numbers through class tag. Then it finds the rows of the table and iterates through the rows to scrape state names and population numbers. It appends the state and population number into a dictionary where state is key and population number is value. It removes District of Columbia to get 50 states. Returns dictionary containing state name and 2010 population numbers.'''
+
+
     table = soup.find('table',{'class':'wikitable sortable'})
     body = table.find('tbody')
     all_rows = body.find_all('tr')
