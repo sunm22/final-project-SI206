@@ -48,12 +48,12 @@ def cases_percent_change(cur, conn):
 
 def highest_positives_viz(cur, conn):
     '''This function takes in the cursor and connection variables. It uses matplotlib to create a bar graph
-    of the 10 states with highest # of COVID cases in Mar 2021 by using the CovidData table.
+    of the 10 states with highest # of COVID cases on Dec 1 2020 by using the CovidData table.
     Output is the creation of the graph.'''
     positives_list = []
     cur.execute('SELECT States.state, Dates.date, CovidData.number_of_cases FROM CovidData JOIN States JOIN Dates ON CovidData.state_id = States.state_id and CovidData.date_id = Dates.date_id')
     for row in cur:
-        if row[1] == '20210307':
+        if row[1] == '20201201':
             positives_list.append(row)
     positives_list = sorted(positives_list, key = lambda x: x[2], reverse=True)
 
@@ -70,8 +70,8 @@ def highest_positives_viz(cur, conn):
 
     plt.bar(x_pos, y, color='blue')
     plt.xlabel('State')
-    plt.ylabel('Positive Cases on Mar 7, 2021 (millions)')
-    plt.title('Highest positive cases by state in Mar 2021')
+    plt.ylabel('Positive Cases on Dec 1, 2020 (millions)')
+    plt.title('Highest positive cases by state in Dec 2020')
 
     plt.xticks(x_pos, x)
 
@@ -105,32 +105,51 @@ def pop_chart(cur, conn):
     plt.show()
 
 def comparison_chart(cur, conn):
-    states_list = ['ca', 'tx', 'fl', 'ny', 'il', 'ga', 'oh', 'pa', 'nc', 'az']
+    '''This function takes in the cursor and connection variables. It uses matplotlib to create a bar graph
+    of the 10 states with highest # of COVID cases on Dec 1 2020, exhibited as a percentage of their overall population.
+    Output is the creation of the graph.'''
+    states_list = ['ca', 'tx', 'fl', 'ny', 'il', 'ga', 'oh', 'wi', 'mi', 'tn']
+    pop_use_list = ['California:2020', 'Texas:2020', 'Florida:2020', 'New York:2020', 'Illinois:2020', 'Georgia:2020', 'Ohio:2020', 'Wisconsin:2020', 'Michigan:2020', 'Tennessee:2020']
     cases_list = []
     pop_list = []
+    percent_list = []
     
     cur.execute('SELECT States.state, Dates.date, CovidData.number_of_cases FROM CovidData JOIN States JOIN Dates ON CovidData.state_id = States.state_id and CovidData.date_id = Dates.date_id')
     for row in cur:
         for state in states_list:
             if row[1] == '20201201' and row[0] == state:
                 cases_list.append(row)
-    positives_list = sorted(positives_list, key = lambda x: x[2], reverse=True)
+    cases_list = sorted(cases_list, key = lambda x: x[0])
 
-    top_ten = positives_list[:10]
+    cur.execute('SELECT Population.state, Population.population FROM Population')
+    for row in cur:
+        for state in pop_use_list:
+            if row[0] == state:
+                pop_list.append(row)
+    pop_list = sorted(pop_list, key = lambda x: x[0])
+
+    for i in range(10):
+        cases = cases_list[i][2]
+        pop = pop_list[i][1]
+        value = cases / int(pop.replace(',' , ''))
+        tup = (cases_list[i][0], value, cases)
+        percent_list.append(tup)
+    
+    percent_list = sorted(percent_list, key = lambda x: x[2], reverse = True)
 
     x = []
     y = []
 
-    for item in top_ten:
+    for item in percent_list:
         x.append(item[0])
-        y.append(item[2])
+        y.append(item[1])
 
     x_pos = [i for i, _ in enumerate(x)]
 
-    plt.bar(x_pos, y, color='blue')
+    plt.bar(x_pos, y, color='black')
     plt.xlabel('State')
-    plt.ylabel('Top 10 states with highest number of Covid Cases as proportion of ')
-    plt.title('Highest positive cases by state in Mar 2021')
+    plt.ylabel('Percent of population testing positive on Dec 1, 2020')
+    plt.title('States with highest number of Covid cases, shown as percentage of population')
 
     plt.xticks(x_pos, x)
 
@@ -142,6 +161,7 @@ def main():
     cases_percent_change(cur, conn)
     highest_positives_viz(cur, conn)
     pop_chart(cur, conn)
+    comparison_chart(cur, conn)
 
 if __name__ == "__main__":
     main()
