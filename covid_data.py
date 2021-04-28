@@ -232,7 +232,7 @@ def main():
                 state_id += 1
 
     print("percent calculation")
-    write_to_file('calculations.csv', cur, conn, full_states_list)
+    write_to_file('covid_calculations.csv', cur, conn, full_states_list)
 
     cur.close()
 
